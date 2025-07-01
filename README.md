@@ -1,6 +1,6 @@
 # NoteBook
 
-A lightweight Qt6/C++ notebook application featuring real-time Markdown highlighting, multilingual support, auto-save, customizable shortcuts, file history navigation, and more—all laid out cleanly so you can focus on writing.
+The lightweight Qt6/C++ notebook application has real-time Markdown highlighting, multi-language support, auto-save, customizable shortcuts, file history navigation and other features. It can be set as your default application with a clear layout so that you can focus on writing.
 
 ---
 
