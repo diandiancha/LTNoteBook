@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/32.ico</file>
+        <file>icon/48.ico</file>
+        <file>icon/64.ico</file>
+        <file>icon/256.ico</file>
+        <file>icon/curve-down-arrow.png</file>
+        <file>icon/curve-down-arrow_white.png</file>
+        <file>icon/disk.png</file>
+        <file>icon/exit.png</file>
+        <file>icon/folder (1).png</file>
+        <file>icon/gallery.png</file>
+        <file>icon/left-arrow.png</file>
+        <file>icon/right-arrow.png</file>
+        <file>icon/setting.png</file>
+    </qresource>
+</RCC>

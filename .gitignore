@@ -1,0 +1,35 @@
+# ---- CMake / build artifacts ----
+build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+install_manifest.txt
+Makefile
+*.cmake
+
+# ---- Qt / QtCreator ----
+*.pro.user
+*.pro.user.*
+*.qmake.stash
+*.moc
+*.qrc.cpp
+ui_*.h
+*.ncb
+*.user
+*.user.*
+*.autosave
+*.layout
+*.log
+
+# ---- Visual Studio / VSCode / other IDEs ----
+.vscode/
+.vs/
+.idea/
+
+# ---- 编译产物 ----
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.exe

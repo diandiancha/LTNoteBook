@@ -1,0 +1,1205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShortSetting</class>
+ <widget class="QDialog" name="ShortSetting">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>515</width>
+    <height>402</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+     <property name="spacing">
+      <number>4</number>
+     </property>
+     <property name="leftMargin">
+      <number>2</number>
+     </property>
+     <item>
+      <widget class="QFrame" name="frameNav">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>196</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>196</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Shape::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Shadow::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>4</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>1</number>
+        </property>
+        <property name="rightMargin">
+         <number>1</number>
+        </property>
+        <property name="bottomMargin">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QListWidget" name="listWidgetNav">
+          <property name="minimumSize">
+           <size>
+            <width>195</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>190</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QListWidget#listWidgetNav {
+  background-color: #232931;           /* 深灰底 */
+  border-top:    2px solid #08FDD8;    /* 上边框 */
+  border-left:   2px solid #08FDD8;    /* 左边框 */
+  border-right:   2px solid #08FDD8;    /* 右边框 */
+  border-bottom: 2px solid #08FDD8;    /* 下边框 */
+  border-top-left-radius:     10px;    /* 左上圆角 */
+  border-bottom-left-radius:  10px;    /* 左下圆角 */
+}
+</string>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>false</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string>快捷键</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei UI</family>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+             <underline>false</underline>
+             <kerning>true</kerning>
+            </font>
+           </property>
+           <property name="background">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>166</red>
+              <green>176</green>
+              <blue>195</blue>
+             </color>
+            </brush>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>编辑器</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei UI</family>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="background">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>166</red>
+              <green>176</green>
+              <blue>195</blue>
+             </color>
+            </brush>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>语言</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="background">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>166</red>
+              <green>176</green>
+              <blue>195</blue>
+             </color>
+            </brush>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>关于</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei UI</family>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="background">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>166</red>
+              <green>176</green>
+              <blue>195</blue>
+             </color>
+            </brush>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QStackedWidget" name="stackedWidget">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(30, 30, 30);</string>
+       </property>
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
+       <widget class="QWidget" name="pageShortcuts">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>400</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>400</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(30, 30, 30);</string>
+        </property>
+        <widget class="QFrame" name="frame">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>281</width>
+           <height>401</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QTableWidget" name="tblShortcuts">
+            <property name="minimumSize">
+             <size>
+              <width>272</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>280</width>
+              <height>350</height>
+             </size>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+            </property>
+            <property name="rowCount">
+             <number>0</number>
+            </property>
+            <property name="columnCount">
+             <number>2</number>
+            </property>
+            <column/>
+            <column/>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="widget" native="true">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QPushButton" name="btnEdit">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>编辑</string>
+               </property>
+               <property name="icon">
+                <iconset theme="QIcon::ThemeIcon::DocumentProperties"/>
+               </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
+               <property name="default">
+                <bool>false</bool>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnSave">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>保存</string>
+               </property>
+               <property name="icon">
+                <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
+               </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
+               <property name="default">
+                <bool>false</bool>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnResetDefault">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>重置</string>
+               </property>
+               <property name="icon">
+                <iconset theme="QIcon::ThemeIcon::SystemReboot"/>
+               </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
+               <property name="default">
+                <bool>false</bool>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+         <zorder>widget</zorder>
+         <zorder>tblShortcuts</zorder>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="pageEdit">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(30, 30, 30);</string>
+        </property>
+        <widget class="QFrame" name="frameEditPage">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>308</width>
+           <height>400</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">#frameEditPage {
+    background: rgb(30,30,30);
+    border-radius: 8px;
+    border: 2px solid #00FFD0;
+    padding: 20px;
+}</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Shape::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
+         </property>
+         <widget class="QWidget" name="layoutWidget_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>200</y>
+            <width>261</width>
+            <height>45</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="Layoutsave">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>8</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="labelpath">
+             <property name="font">
+              <font>
+               <pointsize>-1</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#labelpath, #labeltime, #labelMinute {
+    color: #A6B0C3;
+    font-size: 14px;
+    background: transparent;
+    border: none;
+}
+</string>
+             </property>
+             <property name="text">
+              <string>保存路径</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEditautoSavePath">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#lineEditautoSavePath {
+    background: #23272F;
+    color: #fff;
+    border: 2px solid #00FFD0;
+    border-radius: 10px;
+    padding: 7px 12px;
+    font-size: 16px;
+}
+#lineEditautoSavePath:focus {
+    border: 2px solid #00FFD0;
+}</string>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnbrowsePath">
+             <property name="minimumSize">
+              <size>
+               <width>15</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="res.qrc">
+               <normaloff>:/icon/gallery.png</normaloff>:/icon/gallery.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidget_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>250</y>
+            <width>281</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="Layouttime">
+           <property name="spacing">
+            <number>3</number>
+           </property>
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="labeltime">
+             <property name="maximumSize">
+              <size>
+               <width>90</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>-1</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#labelpath, #labeltime, #labelMinute {
+    color: #A6B0C3;
+    font-size: 14px;
+    background: transparent;
+    border: none;
+}
+</string>
+             </property>
+             <property name="text">
+              <string>保存间隔</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBoxinterval">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">/* ────────── SpinBox 本体 ────────── */
+QSpinBox#spinBoxinterval {
+    background: #23272F;
+    color: #FFFFFF;
+    border: 2.5px solid #00FFD0;
+    border-radius: 14px;          /* 圆角 ≈ 高度的一半 */
+    padding: 4px 28px 4px 12px;   /*             ↑
+                                     右侧留 28px 位置专门给箭头按钮 */
+    font-size: 16px;
+    min-height: 15px;
+}
+
+/* ────────── 箭头按钮 ────────── */
+QSpinBox#spinBoxinterval::up-button,
+QSpinBox#spinBoxinterval::down-button {
+    /* ① 以 padding 区域为参考系，而不是 border 区域 */
+    subcontrol-origin: padding;
+
+    /* ② 紧贴右边垂直堆叠（Qt 会按 up 在上、down 在下自动排版） */
+    subcontrol-position: right center;
+
+    width: 14px;          /* 箭头按钮自身的宽度 */
+    height: 7px;          /* 一半高度即可，Qt 会自动撑满两枚按钮 */
+
+    /* ③ 让按钮“隐形”：边框全无、背景与主体一致 */
+    border: none;
+    background: #23272F;
+
+    /* ④ 轻微收一点边距，让它彻底留在边框之内 */
+    margin: 1px 0;
+}
+QSpinBox#spinBoxinterval::up-arrow,
+QSpinBox#spinBoxinterval::down-arrow {
+    width: 6px;
+    height: 4px;
+    image: none;               /* 用 Qt 默认 ▴ ▾ 即可；如需自定义可换成 url(...) */
+}
+</string>
+             </property>
+             <property name="suffix">
+              <string comment="秒" extracomment="秒"/>
+             </property>
+             <property name="value">
+              <number>30</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelMinute">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>-1</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#labelpath, #labeltime, #labelMinute {
+    color: #A6B0C3;
+    font-size: 14px;
+    background: transparent;
+    border: none;
+}
+#labelpath, #labeltime {
+    font-weight: bold;
+    color: #00FFD0;
+}</string>
+             </property>
+             <property name="text">
+              <string>秒</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QPushButton" name="btnCancel">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>340</y>
+            <width>261</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#btnCancel {
+    background: #2D343E;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    padding: 8px 0;
+}
+#btnCancel:hover {
+    background: #23272F;
+}</string>
+          </property>
+          <property name="text">
+           <string>取消</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="btnOk">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>300</y>
+            <width>261</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#btnOk, #btnbrowsePath {
+    background: #00FFD0;
+    color: #23272F;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    padding: 8px 0;
+}
+#btnOk:hover, #btnbrowsePath:hover {
+    background: #1CE6B3;
+    color: #21232A;
+}</string>
+          </property>
+          <property name="text">
+           <string>确定</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="labelMarkdown">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>9</y>
+            <width>260</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI</family>
+            <pointsize>-1</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#labelMarkdown, #labelAutosave {
+    color: #A6B0C3;
+    font-size: 18px;
+    font-weight: bold;
+    background: transparent;
+    border: none;
+    margin: 0 0 8px 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>启用Markdown</string>
+          </property>
+         </widget>
+         <widget class="QFrame" name="lineSeparator">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>267</width>
+            <height>4</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#lineSeparator, #lineSeparatorsave {
+    background: #323945;
+    height: 1px;
+    border: none;
+    margin: 10px 0;
+}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Shape::HLine</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Shadow::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>2</number>
+          </property>
+         </widget>
+         <widget class="SmoothSwitch" name="switchMarkdown">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>40</y>
+            <width>251</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="SmoothSwitch" name="switchAutoSave">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>130</y>
+            <width>251</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QFrame" name="lineSeparatorsave">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>180</y>
+            <width>267</width>
+            <height>4</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#lineSeparator, #lineSeparatorsave {
+    background: #323945;
+    height: 1px;
+    border: none;
+    margin: 10px 0;
+}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Shape::HLine</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Shadow::Sunken</enum>
+          </property>
+         </widget>
+         <widget class="QLabel" name="labelAutosave">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>100</y>
+            <width>260</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>-1</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#labelMarkdown, #labelAutosave {
+    color:#A6B0C3;
+    font-size: 18px;
+    font-weight: bold;
+    background: transparent;
+    border: none;
+    margin: 0 0 8px 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>自动保存</string>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="pageLanguage">
+        <widget class="QFrame" name="frameLanguage">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>308</width>
+           <height>401</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">#frameLanguage {
+    background: rgb(30,30,30);
+    border-radius: 8px;
+    border: 2px solid #00FFD0;
+    padding: 36px 30px;
+}
+</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Shape::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
+         </property>
+         <widget class="QWidget" name="">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>130</y>
+            <width>261</width>
+            <height>231</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="labelNote">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>每日笔记：</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextBrowser" name="textBrowserQuote">
+             <property name="openExternalLinks">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>30</y>
+            <width>261</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLabel" name="labelLanguage">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>界面语言</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBoxLanguage">
+             <property name="styleSheet">
+              <string notr="true">#comboBoxLanguage {
+    background: #374758;
+    color: #fff;
+    border: 2px solid #00FFD0;
+    border-radius: 8px;
+    padding: 7px 38px 7px 14px;
+    font-size: 20px;
+    min-width: 160px;
+}
+#comboBoxLanguage::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 51px;
+    border: none;
+    background: transparent;
+}
+#comboBoxLanguage QAbstractItemView::item:selected {
+    background: #00FFD055;
+    color: #00FFD0;
+}
+</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="pageAbout">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(30, 30, 30);</string>
+        </property>
+        <widget class="QFrame" name="frameAbout">
+         <property name="geometry">
+          <rect>
+           <x>14</x>
+           <y>10</y>
+           <width>281</width>
+           <height>381</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(30, 30, 30);</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>2</number>
+          </property>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayoutIVI">
+            <property name="spacing">
+             <number>10</number>
+            </property>
+            <property name="leftMargin">
+             <number>16</number>
+            </property>
+            <property name="topMargin">
+             <number>16</number>
+            </property>
+            <property name="rightMargin">
+             <number>16</number>
+            </property>
+            <property name="bottomMargin">
+             <number>10</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="labelicon">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>70</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>70</height>
+               </size>
+              </property>
+              <property name="sizeIncrement">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="res.qrc">:/icon/64.ico</pixmap>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelAboutTitle">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel#labelAboutTitle {
+  font-size: 16pt;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+}</string>
+              </property>
+              <property name="text">
+               <string>LTNoteBook</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelVersion">
+              <property name="styleSheet">
+               <string notr="true">QLabel#labelAboutVersion {
+  font-size: 9pt;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 8px;
+}</string>
+              </property>
+              <property name="text">
+               <string>版本：1.0.0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="lineAboutSeparator">
+              <property name="styleSheet">
+               <string notr="true">QFrame#lineAboutSeparator {
+  max-height: 1px;
+  background-color: rgba(255,255,255,0.15);
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::HLine</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Plain</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelAboutDesc">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: #E0E0E0;
+QLabel#labelAboutDesc {
+  color: #E0E0E0;
+  font-size: 10pt;
+  line-height: 1.4;  /* CSS 写法，Qt 可能只支持 pixelSpacing */
+  qproperty-wordWrap: true;
+}
+</string>
+              </property>
+              <property name="text">
+               <string>NoteBook 是一款轻量级的 Qt6/C++ 记事本应用，支持实时 Markdown 高亮、自动保存、自定义快捷键及多语言切换。
+</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="lineAboutSeparatorbottom">
+              <property name="styleSheet">
+               <string notr="true">QFrame#lineAboutSeparatorbottom {
+  max-height: 1px;
+  background-color: rgba(255,255,255,0.15);
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::HLine</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Plain</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTextBrowser" name="textBrowserLinks">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(30, 30, 30);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::NoFrame</enum>
+              </property>
+              <property name="openExternalLinks">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SmoothSwitch</class>
+   <extends>QCheckBox</extends>
+   <header location="global">SmoothSwitch.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
