@@ -6,6 +6,10 @@
 #include <QSettings>
 #include <QApplication>
 #include <QLibraryInfo>
+#include <QToolTip>
+#include <QLabel>
+#include <QTimer>
+#include <QHelpEvent>
 
 const QStringConverter::Encoding DEFAULT_ENCODING = QStringConverter::Utf8;
 
@@ -13,7 +17,6 @@ QString Widget::encodingToString(QStringConverter::Encoding e)
 {
     switch (e) {
     case QStringConverter::Utf8:    return "UTF-8";
-    case QStringConverter::Utf16:   return "UTF-16";
     case QStringConverter::Utf16LE: return "UTF-16 LE";
     case QStringConverter::Utf16BE: return "UTF-16 BE";
     case QStringConverter::System:  return "ANSI";
@@ -24,27 +27,28 @@ QString Widget::encodingToString(QStringConverter::Encoding e)
     return "UTF-8";
 }
 
-QStringConverter::Encoding Widget::encodingFromString(const QString &s)
+QStringConverter::Encoding Widget::encodingFromString(const QString& s)
 {
     if (s.compare("UTF-8", Qt::CaseInsensitive) == 0)    return QStringConverter::Utf8;
-    if (s.compare("UTF-16", Qt::CaseInsensitive) == 0)   return QStringConverter::Utf16;
     if (s.compare("UTF-16 LE", Qt::CaseInsensitive) == 0) return QStringConverter::Utf16LE;
     if (s.compare("UTF-16 BE", Qt::CaseInsensitive) == 0) return QStringConverter::Utf16BE;
     if (s.compare("ANSI", Qt::CaseInsensitive) == 0)     return QStringConverter::System;
     return DEFAULT_ENCODING;
 }
 
-Widget::Widget(QWidget *parent)
+Widget::Widget(QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
-    QSettings s(ORG,APP);
+    QSettings s(ORG, APP);
 
     ui->setupUi(this);
+
     ui->retranslateUi(this);
+    qApp->installEventFilter(this);
 
     bool markdownOn = s.value(KEY_MD, false).toBool();
-    if (markdownOn){
+    if (markdownOn) {
         mdHighlighter = new MarkdownHighlighter(ui->textEdit->document());
     }
 
@@ -79,7 +83,7 @@ Widget::Widget(QWidget *parent)
         border-radius: 6px;
     }
     QPushButton:hover {
-        background-color: rgba(100, 100, 100, 0.2);  /* 更明显的灰色 */
+        background-color: rgba(100, 100, 100, 0.2);
     }
     QPushButton:pressed {
         background-color: rgba(100, 100, 100, 0.3);
@@ -126,7 +130,7 @@ Widget::Widget(QWidget *parent)
         "    selection-background-color: #3de2cf;"
         "    selection-color: #222831;"
         "}"
-        );
+    );
 
     ui->fileCombobox->setStyleSheet(
         "QComboBox {"
@@ -135,9 +139,9 @@ Widget::Widget(QWidget *parent)
         "    background: #222831;"
         "    color: white;"
         "    padding: 3px 6px;"
-        "    font: 8pt 'Microsoft YaHei UI';"
+        "    font: 10pt 'Microsoft YaHei UI';"
         "    min-height: 8px;"
-        "    min-width: 68px;"
+        "    min-width: 90px;"
         "} "
         "QComboBox::drop-down {"
         "    width: 0px;"
@@ -154,15 +158,15 @@ Widget::Widget(QWidget *parent)
         "    color: white;"
         "    font: 8pt 'Microsoft YaHei UI';"
         "    padding: 4px;"
-        "    min-height: 28px;"
+        "    min-height: 50x;"
         "    selection-background-color: #3de2cf;"
         "    selection-color: #222831;"
         "}"
-        );
+    );
 
-    asEnabled  = s.value("AutoSave/enabled",  false).toBool();
+    asEnabled = s.value("AutoSave/enabled", false).toBool();
     asInterval = s.value("AutoSave/interval", 30).toInt();
-    asPath     = s.value("AutoSave/path").toString();
+    asPath = s.value("AutoSave/path").toString();
     if (asPath.isEmpty())
         asPath = QStandardPaths::writableLocation(
             QStandardPaths::DesktopLocation);
@@ -171,14 +175,15 @@ Widget::Widget(QWidget *parent)
 
     debounceTimer.setSingleShot(true);
     debounceTimer.setInterval(500);
-    connect(&debounceTimer, &QTimer::timeout, this, [this](){
+    connect(&debounceTimer, &QTimer::timeout, this, [this]() {
         if (asEnabled) onAutoSaveTimeout();
-    });
+        });
 
-    connect(ui->textEdit, &QTextEdit::textChanged, this, [this](){
+    connect(ui->textEdit, &QTextEdit::textChanged, this, [this]() {
         autoSaveDirty = true;
         debounceTimer.start();
-    });
+        });
+    setupToolTips();
 }
 
 Widget::~Widget() {
@@ -186,12 +191,11 @@ Widget::~Widget() {
     if (mdHighlighter) delete mdHighlighter;
 }
 
-void Widget::openFileFromPath(const QString &path)
+void Widget::openFileFromPath(const QString& path)
 {
     if (path.isEmpty()) return;
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly)) return;
-
     QByteArray raw = file.readAll();
     QString text;
     QStringConverter::Encoding encoding = QStringConverter::Utf8;
@@ -200,34 +204,52 @@ void Widget::openFileFromPath(const QString &path)
     if (raw.startsWith("\xEF\xBB\xBF")) {
         encoding = QStringConverter::Utf8;
         bom = 3;
-    } else if (raw.startsWith("\xFF\xFE")) {
+    }
+    else if (raw.startsWith("\xFF\xFE")) {
         encoding = QStringConverter::Utf16LE;
         bom = 2;
-    } else if (raw.startsWith("\xFE\xFF")) {
+    }
+    else if (raw.startsWith("\xFE\xFF")) {
         encoding = QStringConverter::Utf16BE;
         bom = 2;
+    }
+    else {
+        encoding = detectEncoding(raw);
     }
 
     QByteArray content = raw.mid(bom);
     QStringDecoder decoder(encoding);
     text = decoder(content);
 
+    if (text.contains(QChar::ReplacementCharacter)) {
+        QStringConverter::Encoding fallbackEncoding = tryFallbackEncoding(raw, encoding);
+        if (fallbackEncoding != encoding) {
+            encoding = fallbackEncoding;
+            QStringDecoder fallbackDecoder(encoding);
+            text = fallbackDecoder(content);
+        }
+    }
+
     currentFilePath = path;
     openedFiles[path] = text;
     fileEncodings[path] = encoding;
     if (!fileOrder.contains(path)) fileOrder.append(path);
-
     fileHistory.clear();
     fileHistory.append(path);
     fileHistoryPos = 0;
-
     ui->textEdit->setPlainText(text);
-    ui->fileCombobox->setCurrentText(encodingToString(encoding));
+
+    QString encStr = encodingToString(encoding);
+    int idx = ui->fileCombobox->findText(encStr);
+    if (idx >= 0)
+        ui->fileCombobox->setCurrentIndex(idx);
+    else
+        ui->fileCombobox->setCurrentText(encStr);
 
     updateFileArrangement();
 }
 
-void Widget::updateEncodingSelection(const QString &path)
+void Widget::updateEncodingSelection(const QString& path)
 {
     auto enc = fileEncodings.value(path, DEFAULT_ENCODING);
     QString name = encodingToString(enc);
@@ -242,7 +264,7 @@ void Widget::on_Open_clicked()
         this,
         tr("打开文件"),
         {},
-        tr("文本文件 (*.txt *.md *.cpp *.h *.log);;所有文件 (*.*)")
+        tr("文本文件 (*.txt *.md *.cpp *.h);;所有文件 (*.*)")
     );
     QFileInfo info(path);
     if (info.suffix() == "exe" || info.suffix() == "dll") {
@@ -250,19 +272,12 @@ void Widget::on_Open_clicked()
         return;
     }
     if (path.isEmpty()) return;
-
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly)) {
         QMessageBox::warning(this, tr("错误"), tr("文件打开失败！"));
         return;
     }
-
     QByteArray raw = file.readAll();
-    if (raw.left(1000).contains('\0')) {
-        QMessageBox::warning(this, tr("警告"), tr("文件可能不是文本文件，无法打开！"));
-        return;
-    }
-
     QString text;
     QStringConverter::Encoding encoding = QStringConverter::Utf8;
     int bom = 0;
@@ -270,47 +285,175 @@ void Widget::on_Open_clicked()
     if (raw.startsWith("\xEF\xBB\xBF")) {
         encoding = QStringConverter::Utf8;
         bom = 3;
-    } else if (raw.startsWith("\xFF\xFE")) {
+    }
+    else if (raw.startsWith("\xFF\xFE")) {
         encoding = QStringConverter::Utf16LE;
         bom = 2;
-    } else if (raw.startsWith("\xFE\xFF")) {
+    }
+    else if (raw.startsWith("\xFE\xFF")) {
         encoding = QStringConverter::Utf16BE;
         bom = 2;
-    } else {
-        QByteArray sample = raw.left(1000);
-        QStringDecoder tryUtf8(QStringConverter::Utf8);
-        QString decoded = tryUtf8(sample);
-
-        if (decoded.contains(QChar::ReplacementCharacter)) {
-            encoding = QStringConverter::System;
-        }
+    }
+    else {
+        encoding = detectEncoding(raw);
     }
 
     QByteArray content = raw.mid(bom);
     QStringDecoder decoder(encoding);
     text = decoder(content);
 
+    if (text.contains(QChar::ReplacementCharacter)) {
+        QStringConverter::Encoding fallbackEncoding = tryFallbackEncoding(raw, encoding);
+        if (fallbackEncoding != encoding) {
+            encoding = fallbackEncoding;
+            QStringDecoder fallbackDecoder(encoding);
+            text = fallbackDecoder(content);
+        }
+    }
+
     fileEncodings[path] = encoding;
     openedFiles[path] = text;
     if (!fileOrder.contains(path)) fileOrder.append(path);
-
     if (fileHistoryPos == -1 || fileHistory.value(fileHistoryPos) != path) {
         fileHistory = fileHistory.mid(0, fileHistoryPos + 1);
         fileHistory.append(path);
         fileHistoryPos = fileHistory.size() - 1;
     }
-
     currentFilePath = path;
     ui->textEdit->setPlainText(text);
-
     QString encStr = encodingToString(encoding);
     int idx = ui->fileCombobox->findText(encStr);
     if (idx >= 0)
         ui->fileCombobox->setCurrentIndex(idx);
     else
         ui->fileCombobox->setCurrentText(encStr);
-
     updateFileArrangement();
+}
+
+QStringConverter::Encoding Widget::detectEncoding(const QByteArray& data)
+{
+    QByteArray sample = data.left(qMin(4096, data.size()));
+
+    // Check for BOM
+    if (sample.startsWith("\xFF\xFE")) return QStringConverter::Utf16LE;
+    if (sample.startsWith("\xFE\xFF")) return QStringConverter::Utf16BE;
+    if (sample.startsWith("\xEF\xBB\xBF")) return QStringConverter::Utf8;
+
+    // ASCII check
+    bool isAscii = std::all_of(sample.begin(), sample.end(), [](char c) {
+        return static_cast<unsigned char>(c) < 128;
+        });
+    if (isAscii) return QStringConverter::Utf8;
+
+    // UTF-8 validation
+    QStringDecoder utf8Decoder(QStringConverter::Utf8);
+    QString utf8Text = utf8Decoder(sample);
+    if (!utf8Text.contains(QChar::ReplacementCharacter) && isLikelyText(utf8Text)) {
+        return QStringConverter::Utf8;
+    }
+
+    // System validation
+    QStringDecoder systemDecoder(QStringConverter::System);
+    QString systemText = systemDecoder(sample);
+    if (!systemText.contains(QChar::ReplacementCharacter) && isLikelyText(systemText)) {
+        return QStringConverter::System;
+    }
+
+    // UTF-16 validation
+    QStringConverter::Encoding utf16Encoding = detectUtf16ByteOrder(sample);
+    QStringDecoder utf16Decoder(utf16Encoding);
+    QString utf16Text = utf16Decoder(sample);
+    if (!utf16Text.contains(QChar::ReplacementCharacter) && isLikelyText(utf16Text)) {
+        return utf16Encoding;
+    }
+
+    return QStringConverter::Utf8;
+}
+
+QStringConverter::Encoding Widget::tryFallbackEncoding(const QByteArray& data, QStringConverter::Encoding currentEncoding)
+{
+    QByteArray sample = data.left(qMin(4096, data.size()));
+    QList<QStringConverter::Encoding> fallbacks;
+
+    if (currentEncoding == QStringConverter::Utf8) {
+        fallbacks = { QStringConverter::System, QStringConverter::Latin1 };
+    }
+    else if (currentEncoding == QStringConverter::System) {
+        fallbacks = { QStringConverter::Utf8, QStringConverter::Latin1 };
+    }
+    else {
+        fallbacks = { QStringConverter::Utf8, QStringConverter::System, QStringConverter::Latin1 };
+    }
+
+    for (auto encoding : fallbacks) {
+        if (encoding == currentEncoding) continue;
+
+        QStringDecoder decoder(encoding);
+        QString text = decoder(sample);
+        if (!text.contains(QChar::ReplacementCharacter) && isLikelyText(text)) {
+            return encoding;
+        }
+    }
+
+    return currentEncoding;
+}
+
+bool Widget::isLikelyUtf16(const QByteArray& data)
+{
+    if (data.size() < 4) return false;
+    int nullCount = 0;
+    int evenNulls = 0;
+    int oddNulls = 0;
+
+    for (int i = 0; i < qMin(1000, data.size()); ++i) {
+        if (data[i] == 0) {
+            nullCount++;
+            if (i % 2 == 0) evenNulls++;
+            else oddNulls++;
+        }
+    }
+    if (nullCount > data.size() / 20) {
+        return (evenNulls > oddNulls * 2) || (oddNulls > evenNulls * 2);
+    }
+
+    return false;
+}
+
+QStringConverter::Encoding Widget::detectUtf16ByteOrder(const QByteArray& data)
+{
+    int leScore = 0;
+    int beScore = 0;
+    int length = qMin(1000, data.size() - (data.size() % 2));
+
+    for (int i = 0; i < length; i += 2) {
+        unsigned char byte1 = static_cast<unsigned char>(data[i]);
+        unsigned char byte2 = static_cast<unsigned char>(data[i + 1]);
+
+        if (byte1 == 0 && byte2 != 0) beScore++;
+        else if (byte2 == 0 && byte1 != 0) leScore++;
+    }
+
+    if (leScore > beScore * 2) return QStringConverter::Utf16LE;
+    if (beScore > leScore * 2) return QStringConverter::Utf16BE;
+
+    return QStringConverter::Utf16LE;
+}
+
+
+bool Widget::isLikelyText(const QString& text)
+{
+    if (text.isEmpty()) return false;
+
+    int printableCount = 0;
+    int controlCount = 0;
+
+    for (const QChar& c : text) {
+        if (c.isPrint() || c.isSpace()) printableCount++;
+        else if (c.isNull() || c.category() == QChar::Other_Control) controlCount++;
+    }
+
+    double printableRatio = double(printableCount) / text.length();
+    return printableRatio > 0.85 && controlCount < text.length() * 0.05;
 }
 
 void Widget::on_Save_clicked()
@@ -319,9 +462,9 @@ void Widget::on_Save_clicked()
 
     if (path.isEmpty()) {
         path = QFileDialog::getSaveFileName(this,
-                                            tr("保存文件"),
-                                            tr("新建文件.txt"),
-                                            tr("所有文件 (*.*);;文本文件 (*.txt);;文档 (*.doc);;Markdown (*.md);;C++ 源码 (*.cpp *.h)"));
+            tr("保存文件"),
+            tr("新建文件.txt"),
+            tr("所有文件 (*.*);;文本文件 (*.txt);;文档 (*.doc);;Markdown (*.md);;C++ 源码 (*.cpp *.h)"));
         if (path.isEmpty()) return;
 
         currentFilePath = path;
@@ -426,7 +569,7 @@ void Widget::updateFileArrangement()
     m_ignoreFileArrangement = false;
 }
 
-void Widget::on_fontBox_currentFontChanged(const QFont &f)
+void Widget::on_fontBox_currentFontChanged(const QFont& f)
 {
     QFont cur = ui->textEdit->font();
     cur.setFamily(f.family());
@@ -450,9 +593,10 @@ void Widget::on_Reset_clicked()
         ui->textEdit->undo();
 }
 
-void Widget::on_Withdraw_clicked(){
+void Widget::on_Withdraw_clicked() {
     if (ui->textEdit->document()->isRedoAvailable())
-        ui->textEdit->redo();}
+        ui->textEdit->redo();
+}
 
 void Widget::loadShortcuts()
 {
@@ -532,10 +676,10 @@ bool Widget::isUsingCustomShortcut(int key) {
     return false;
 }
 
-bool Widget::eventFilter(QObject *watched, QEvent *event)
+bool Widget::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == ui->textEdit && event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
 
         QSettings settings(ORG, APP);
         QString undoShortcut = settings.value("Shortcut/Undo", "Ctrl+Z").toString();
@@ -565,7 +709,7 @@ void Widget::updateAutosaveTimer()
         return;
 
     connect(&autosaveTimer, &QTimer::timeout,
-            this, &Widget::onAutoSaveTimeout);
+        this, &Widget::onAutoSaveTimeout);
     autosaveTimer.start(asInterval * 1000);
 }
 
@@ -577,10 +721,11 @@ void Widget::onAutoSaveTimeout()
     QString fullPath;
     if (!currentFilePath.isEmpty()) {
         fullPath = currentFilePath;
-    } else {
+    }
+    else {
         QString defaultDir = asPath.isEmpty()
-                                 ? QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)
-                                 : asPath;
+            ? QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)
+            : asPath;
         QDir dir(defaultDir);
         if (!dir.exists() && !dir.mkpath(".")) {
             qWarning() << tr("无法创建目录：") << defaultDir;
@@ -588,10 +733,10 @@ void Widget::onAutoSaveTimeout()
         }
         if (sessionAutoSaveFile.isEmpty()) {
             QString timeStamp = QDateTime::currentDateTime()
-            .toString("yyyyMMddhhmmss");
+                .toString("yyyyMMddhhmmss");
             sessionAutoSaveFile = dir.filePath(
                 QString("autosave_%1.txt").arg(timeStamp)
-                );
+            );
         }
         fullPath = sessionAutoSaveFile;
     }
@@ -607,13 +752,19 @@ void Widget::onAutoSaveTimeout()
     qDebug() << tr("已自动保存到：") << fullPath;
 }
 
-void Widget::changeEvent(QEvent *e) {
-    if (e->type() == QEvent::LanguageChange)
+void Widget::changeEvent(QEvent* e)
+{
+    if (e->type() == QEvent::LanguageChange) {
         ui->retranslateUi(this);
+        setupToolTips();
+        updateFileArrangement();
+        updateCharCount();
+        updateCursorPosition();
+    }
     QWidget::changeEvent(e);
 }
 
-void Widget::closeEvent(QCloseEvent *event)
+void Widget::closeEvent(QCloseEvent* event)
 {
     if (asEnabled && autoSaveDirty)
         onAutoSaveTimeout();
@@ -621,11 +772,15 @@ void Widget::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
-void Widget::onLanguageChanged(const QString &code)
+void Widget::onLanguageChanged(const QString& code)
 {
     QSettings(ORG, APP).setValue(KEY_LANG, code);
     TranslationManager::instance().switchLanguage(code);
     ui->retranslateUi(this);
+    setupToolTips();
+    updateFileArrangement();
+    updateCharCount();
+    updateCursorPosition();
 }
 
 void Widget::on_btnOpenSet_clicked()
@@ -634,23 +789,24 @@ void Widget::on_btnOpenSet_clicked()
     dlg.setWindowTitle(tr("设置"));
 
     connect(&dlg, &ShortSetting::shortcutUpdated,
-            this, &Widget::loadShortcuts);
+        this, &Widget::loadShortcuts);
 
     connect(&dlg, &ShortSetting::languageChanged,
-            this, &Widget::onLanguageChanged);
+        this, &Widget::onLanguageChanged);
 
     connect(&dlg, &ShortSetting::languageChanged,
-            &dlg, [&](const QString&){
-                QEvent ev(QEvent::LanguageChange);
-                QCoreApplication::sendEvent(&dlg, &ev);
-            });
+        &dlg, [&](const QString&) {
+            QEvent ev(QEvent::LanguageChange);
+            QCoreApplication::sendEvent(&dlg, &ev);
+        });
 
     if (dlg.exec() == QDialog::Accepted) {
         QSettings s(ORG, APP);
         bool markdownOn = s.value(KEY_MD, false).toBool();
         if (markdownOn && !mdHighlighter) {
             mdHighlighter = new MarkdownHighlighter(ui->textEdit->document());
-        } else if (!markdownOn && mdHighlighter) {
+        }
+        else if (!markdownOn && mdHighlighter) {
             delete mdHighlighter;
             mdHighlighter = nullptr;
         }
@@ -658,10 +814,22 @@ void Widget::on_btnOpenSet_clicked()
         loadShortcuts();
 
         dlg.saveAutoSave();
-        asEnabled  = dlg.autosaveEnabled();
+        asEnabled = dlg.autosaveEnabled();
         asInterval = dlg.autosaveInterval();
-        asPath     = dlg.autosavePath();
+        asPath = dlg.autosavePath();
         updateAutosaveTimer();
     }
 }
 
+void Widget::setupToolTips()
+{
+    ui->Open->setToolTip(tr("打开文件"));
+    ui->Save->setToolTip(tr("保存文件"));
+    ui->Reset->setToolTip(tr("撤回"));
+    ui->Withdraw->setToolTip(tr("重做"));
+    ui->Exit->setToolTip(tr("清空内容"));
+    ui->btnOpenSet->setToolTip(tr("设置"));
+    ui->fontBox->setToolTip(tr("字体"));
+    ui->fileCombobox->setToolTip(tr("编码格式"));
+    ui->fileArrangement->setToolTip((tr("打开历史")));
+}

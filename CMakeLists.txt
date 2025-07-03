@@ -12,7 +12,7 @@ find_package(Qt6 REQUIRED COMPONENTS
     Core
     Widgets
     Network
-    LinguistTools 
+    LinguistTools
 )
 
 message(STATUS "Using Qt6 at: ${Qt6_DIR}")
@@ -59,10 +59,12 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Core
     Qt6::Widgets
     Qt6::Network
+
 )

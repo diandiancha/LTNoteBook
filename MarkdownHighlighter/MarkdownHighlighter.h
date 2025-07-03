@@ -23,6 +23,13 @@ private:
     QTextCharFormat codeFormat;
     QTextCharFormat linkFormat;
     QTextCharFormat quoteFormat;
+    QTextCharFormat strikethroughFormat;
+    QTextCharFormat unorderedListFormat;
+    QTextCharFormat orderedListFormat;
+    QTextCharFormat hrFormat;
+    QTextCharFormat fenceFormat;
+    QTextCharFormat tableFormat;
+    QTextCharFormat htmlTagFormat;
 
     QRegularExpression headingRe;
     QRegularExpression boldRe;
@@ -30,6 +37,14 @@ private:
     QRegularExpression codeRe;
     QRegularExpression linkRe;
     QRegularExpression quoteRe;
+    QRegularExpression strikethroughRe;
+    QRegularExpression unorderedListRe;
+    QRegularExpression orderedListRe;
+    QRegularExpression hrRe;
+    QRegularExpression fenceRe;
+    QRegularExpression tableRe;
+    QRegularExpression htmlTagRe;
+    QRegularExpression htmlBoldRe;
 };
 
 #endif // MARKDOWNHIGHLIGHTER_H
