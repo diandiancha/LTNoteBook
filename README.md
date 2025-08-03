@@ -1,52 +1,71 @@
-# NoteBook
+# LTNoteBook
 
-The lightweight Qt6/C++ notebook application has real-time Markdown highlighting, multi-language support, auto-save, customizable shortcuts, file history navigation and other features. It can be set as your default application with a clear layout so that you can focus on writing.
+一个功能丰富的轻量级文本编辑器，专为提高写作效率而设计。
 
----
+## ✨ 主要特性
 
-## Core Features
+### 📝 强大的编辑功能
+- **多编码支持**：UTF-8、UTF-16 LE/BE、ANSI 等主流编码格式
+- **智能编码检测**：自动识别文件编码，避免乱码问题
+- **Markdown 高亮**：内置 Markdown 语法高亮支持
+- **多文件管理**：历史记录快速切换，支持同时处理多个文件
 
-- **Real-time Markdown highlighting**  
-- **Automatic encoding detection** (UTF-8 / ANSI / …) with correct decoding  
-- **Multilingual interface** (中文 / English / 日本語)  
-- **Random “Quote of the Day” refresh**  
-- **Auto-save** (configurable interval and save path)  
-- **File history tracking & navigation**  
-- **Customizable shortcuts**  
-- **Undo / Redo**  
+### 🔄 智能备份系统
+- **智能备份**：文档修改时自动创建备份，避免意外丢失
+- **去重备份**：每个文件只保留一个最新备份，节省存储空间
+- **备份恢复**：一键访问备份文件夹，轻松恢复历史版本
 
----
+### ⚡ 自动保存功能
+- **实时保存**：可配置的自动保存间隔（10-300秒）
+- **新文档保存**：未命名文档也能自动保存，防止意外丢失
+- **路径自定义**：灵活配置自动保存位置
 
-## Installation
+### 🛠️ 贴心的用户体验
+- **多语言界面**：支持中文、英文、日语
+- **自定义快捷键**：所有操作都可配置快捷键
+- **Windows 文件关联**：支持常见文本文件格式关联
+- **暗色主题**：护眼的深色界面设计
 
-1. Visit the [Releases](https://github.com/diandiancha/LTNoteBook/releases/tag/v1.0.0) page and download the installer for your platform (currently supports x64 only):  
-   - Windows x64 (`.exe`)
+## 🚀 快速开始
 
-2. Double-click the downloaded installer (or extract and run `NoteBook`) to launch the app.
+### 安装使用
+1. 从 [Releases](https://github.com/diandiancha/LTNoteBook/releases) 下载最新版本
+2. 解压到任意目录
+3. 运行 `LTNoteBook.exe`
 
----
+### 基本操作
+- **Ctrl+O**：打开文件
+- **Ctrl+S**：保存文件
+- **Ctrl+N**：新建/清空文档
+- **Ctrl+D**：删除当前文件
+- **Ctrl+Z/Y**：撤销/重做
 
-## Quick Start
+### 文件关联（Windows）
+在设置中可以一键关联常见文本文件格式，支持：
+- 文本文件：`.txt`, `.md`, `.log`, `.ini`, `.cfg`, `.conf`
+- 编程文件：`.cpp`, `.h`, `.c`, `.hpp`, `.py`, `.js`, `.html`, `.css`
+- 数据文件：`.json`, `.xml`
 
-1. **Open or create** a `.txt` / `.md` file  
-2. In **Settings**, configure:  
-   - Shortcut scheme  
-   - Enable/disable **Markdown** mode (auto-trigger syntax highlighting)  
-   - Auto-save toggle & interval  
-   - Interface language  
-3. Use the **Back/Forward** buttons in the file history panel to jump through recently opened files  
-4. Check the status bar for **character count / line & column** and **file encoding**
+## 🎯 支持的文件格式
 
----
+自动检测并支持多种文本文件格式的编码，包括但不限于：
+- 纯文本文件（.txt）
+- Markdown 文档（.md）
+- 源代码文件（.cpp, .h, .py, .js 等）
+- 配置文件（.ini, .cfg, .json, .xml 等）
+- 日志文件（.log）
 
-## License
+## ⚙️ 系统要求
 
-This project is released under the **MIT License**. See [LICENSE](./LICENSE) for details.
+- **操作系统**：Windows 10/11
+- **架构**：x64
+- **运行时**：Qt 6.8.1
+- **磁盘空间**：约 50MB
 
----
+## 🤝 参与贡献
 
-## Contributing
+欢迎提交 Issue 和 Pull Request！
 
-- Open an [Issue](https://github.com/diandiancha/LTNoteBook/issues) to report bugs or suggest features  
-- Submit a [Pull Request](https://github.com/diandiancha/LTNoteBook/pulls) to contribute code  
-- ★ Star this repo to show your support!
+## 📄 许可证
+
+本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
