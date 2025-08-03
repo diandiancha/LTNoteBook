@@ -33,7 +33,7 @@ A feature-rich, lightweight text editor designed to boost writing efficiency.
 ### 🚀 Getting Started
 
 #### Installation & Usage
-1.  Download the latest version from the **[Releases]**(https://github.com/diandiancha/LTNoteBook/releases) page.
+1.  Download the latest version from the **[Releases](https://github.com/diandiancha/LTNoteBook/releases)** page.
 2.  Unzip the files to any directory.
 3.  Run **LTNoteBook.exe**.
 
