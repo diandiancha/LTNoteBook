@@ -80,6 +80,7 @@ protected:
 private slots:
     // === 文件操作槽函数 ===
     void on_Open_clicked();                     // 打开文件
+    void openPendingFile();
     void on_Save_clicked();                     // 保存文件
     void on_Delete_clicked();                   // 删除文件
     void on_Exit_clicked();                     // 关闭文件
@@ -113,6 +114,8 @@ private:
     void addToHistory(const QString &path);     // 添加到历史记录
     void cleanupMemoryIfNeeded();               // 内存清理
     void updateWindowTitle();                   // 更新窗口标题
+    bool m_isOpeningFile = false;  // 防止重复打开文件的标志
+    QString m_pendingFilePath;     // 待打开的文件路径
     void updateUndoRedoButtons();
     void checkReadmeIntegrity(const QString &backupDir) const;
     void cleanupBackupFolder();
