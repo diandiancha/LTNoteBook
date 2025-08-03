@@ -1,6 +1,5 @@
 #ifndef SHORTSETTING_H
 #define SHORTSETTING_H
-
 #include <QDialog>
 #include <QVector>
 #include <QTextBrowser>

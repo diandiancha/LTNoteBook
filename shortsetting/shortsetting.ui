@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>515</width>
-    <height>402</height>
+    <width>510</width>
+    <height>407</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -408,7 +408,7 @@
            <rect>
             <x>10</x>
             <y>200</y>
-            <width>261</width>
+            <width>291</width>
             <height>45</height>
            </rect>
           </property>
@@ -432,14 +432,14 @@
              <property name="styleSheet">
               <string notr="true">#labelpath, #labeltime, #labelMinute {
     color: #A6B0C3;
-    font-size: 14px;
+    font-size: 12px;
     background: transparent;
     border: none;
 }
 </string>
              </property>
              <property name="text">
-              <string>保存路径</string>
+              <string>新文本路径</string>
              </property>
             </widget>
            </item>
@@ -448,7 +448,7 @@
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
-               <verstretch>1</verstretch>
+               <verstretch>0</verstretch>
               </sizepolicy>
              </property>
              <property name="styleSheet">
@@ -458,7 +458,7 @@
     border: 2px solid #00FFD0;
     border-radius: 10px;
     padding: 7px 12px;
-    font-size: 16px;
+    font-size: 12px;
 }
 #lineEditautoSavePath:focus {
     border: 2px solid #00FFD0;
@@ -484,7 +484,7 @@
               </size>
              </property>
              <property name="text">
-              <string>...</string>
+              <string/>
              </property>
              <property name="icon">
               <iconset resource="res.qrc">
@@ -499,7 +499,7 @@
            <rect>
             <x>10</x>
             <y>250</y>
-            <width>281</width>
+            <width>291</width>
             <height>41</height>
            </rect>
           </property>
@@ -508,13 +508,19 @@
             <number>3</number>
            </property>
            <property name="leftMargin">
-            <number>6</number>
+            <number>8</number>
            </property>
            <item>
             <widget class="QLabel" name="labeltime">
+             <property name="minimumSize">
+              <size>
+               <width>125</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>90</width>
+               <width>0</width>
                <height>16777215</height>
               </size>
              </property>
@@ -526,14 +532,14 @@
              <property name="styleSheet">
               <string notr="true">#labelpath, #labeltime, #labelMinute {
     color: #A6B0C3;
-    font-size: 14px;
+    font-size: 12px;
     background: transparent;
     border: none;
 }
 </string>
              </property>
              <property name="text">
-              <string>保存间隔</string>
+              <string>默认保存间隔</string>
              </property>
             </widget>
            </item>
@@ -603,7 +609,7 @@ QSpinBox#spinBoxinterval::down-arrow {
             <widget class="QLabel" name="labelMinute">
              <property name="maximumSize">
               <size>
-               <width>50</width>
+               <width>55</width>
                <height>16777215</height>
               </size>
              </property>
@@ -615,7 +621,7 @@ QSpinBox#spinBoxinterval::down-arrow {
              <property name="styleSheet">
               <string notr="true">#labelpath, #labeltime, #labelMinute {
     color: #A6B0C3;
-    font-size: 14px;
+    font-size: 12px;
     background: transparent;
     border: none;
 }
@@ -626,6 +632,9 @@ QSpinBox#spinBoxinterval::down-arrow {
              </property>
              <property name="text">
               <string>秒</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
              </property>
             </widget>
            </item>
@@ -762,9 +771,9 @@ QSpinBox#spinBoxinterval::down-arrow {
          <widget class="SmoothSwitch" name="switchMarkdown">
           <property name="geometry">
            <rect>
-            <x>10</x>
+            <x>20</x>
             <y>40</y>
-            <width>251</width>
+            <width>241</width>
             <height>41</height>
            </rect>
           </property>
@@ -781,9 +790,9 @@ QSpinBox#spinBoxinterval::down-arrow {
          <widget class="SmoothSwitch" name="switchAutoSave">
           <property name="geometry">
            <rect>
-            <x>10</x>
+            <x>20</x>
             <y>130</y>
-            <width>251</width>
+            <width>241</width>
             <height>41</height>
            </rect>
           </property>
@@ -874,7 +883,7 @@ QSpinBox#spinBoxinterval::down-arrow {
          <property name="frameShadow">
           <enum>QFrame::Shadow::Raised</enum>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>20</x>
@@ -908,7 +917,7 @@ QSpinBox#spinBoxinterval::down-arrow {
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>20</x>

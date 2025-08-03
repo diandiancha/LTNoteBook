@@ -13,5 +13,6 @@
         <file>icon/left-arrow.png</file>
         <file>icon/right-arrow.png</file>
         <file>icon/setting.png</file>
+        <file>icon/delete.png</file>
     </qresource>
 </RCC>

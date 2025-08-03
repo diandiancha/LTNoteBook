@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>974</width>
-    <height>706</height>
+    <width>750</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,8 +50,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>20</width>
-           <height>20</height>
+           <width>22</width>
+           <height>22</height>
           </size>
          </property>
          <property name="checkable">
@@ -126,6 +126,38 @@
          </property>
          <property name="default">
           <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="Delete">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/icon/delete.png</normaloff>:/icon/delete.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>23</width>
+           <height>23</height>
+          </size>
          </property>
          <property name="flat">
           <bool>true</bool>
@@ -252,7 +284,7 @@
         <widget class="QComboBox" name="fileArrangement">
          <property name="minimumSize">
           <size>
-           <width>150</width>
+           <width>200</width>
            <height>0</height>
           </size>
          </property>
@@ -268,6 +300,9 @@
          <property name="mouseTracking">
           <bool>true</bool>
          </property>
+         <property name="layoutDirection">
+          <enum>Qt::LayoutDirection::LeftToRight</enum>
+         </property>
          <property name="editable">
           <bool>false</bool>
          </property>
@@ -280,6 +315,12 @@
      </item>
      <item>
       <widget class="QTextEdit" name="textEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="sizeIncrement">
         <size>
          <width>20</width>
@@ -299,8 +340,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(43, 44, 47);
-color: rgb(255, 255, 255);</string>
+        <string notr="true"/>
        </property>
        <property name="tabChangesFocus">
         <bool>false</bool>
@@ -313,6 +353,12 @@ color: rgb(255, 255, 255);</string>
         <size>
          <width>20</width>
          <height>20</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="styleSheet">
@@ -346,8 +392,8 @@ color: rgb(255, 255, 255);</string>
            <widget class="QFontComboBox" name="fontBox">
             <property name="minimumSize">
              <size>
-              <width>20</width>
-              <height>20</height>
+              <width>148</width>
+              <height>28</height>
              </size>
             </property>
             <property name="baseSize">
@@ -358,14 +404,140 @@ color: rgb(255, 255, 255);</string>
             </property>
             <property name="font">
              <font>
+              <family>Microsoft YaHei UI</family>
               <pointsize>10</pointsize>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
             </property>
             <property name="cursor">
              <cursorShape>ClosedHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true">/* 字体选择框样式 */
+QFontComboBox {
+    border: 2px solid #18e2cf;
+    border-radius: 12px;
+    background: #222831;
+    color: white;
+    padding: 6px 12px;
+    font: 10pt 'Microsoft YaHei UI';
+    min-height: 12px;
+    min-width: 120px;
+    selection-background-color: #18e2cf;
+    selection-color: #222831;
+}
+
+QFontComboBox:hover {
+    border: 2px solid #3de2cf;
+    background: #2a3441;
+}
+
+QFontComboBox:focus {
+    border: 2px solid #08FDD8;
+    background: #2a3441;
+    outline: none;
+}
+
+QFontComboBox:pressed {
+    background: #1a2028;
+    border: 2px solid #08FDD8;
+}
+
+QFontComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 30px;
+    border-left: 1px solid #18e2cf;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #2a3441, stop:1 #222831);
+}
+
+QFontComboBox::drop-down:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #3a4451, stop:1 #2a3441);
+    border-left: 1px solid #3de2cf;
+}
+
+QFontComboBox::down-arrow {
+    image: none;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #18e2cf;
+    margin: 0px 6px 0px 6px;
+}
+
+QFontComboBox::down-arrow:hover {
+    border-top: 8px solid #3de2cf;
+}
+
+QFontComboBox::down-arrow:pressed {
+    border-top: 8px solid #08FDD8;
+}
+
+QFontComboBox QAbstractItemView {
+    border: 2px solid #18e2cf;
+    border-radius: 8px;
+    background: #232931;
+    color: white;
+    font: 10pt 'Microsoft YaHei UI';
+    padding: 4px;
+    selection-background-color: #18e2cf;
+    selection-color: #222831;
+    outline: none;
+}
+
+QFontComboBox QAbstractItemView::item {
+    padding: 8px 12px;
+    border: none;
+    border-bottom: 1px solid #3a4451;
+    background: transparent;
+}
+
+QFontComboBox QAbstractItemView::item:hover {
+    background: #3a4451;
+    color: #18e2cf;
+}
+
+QFontComboBox QAbstractItemView::item:selected {
+    background: #18e2cf;
+    color: #222831;
+    font-weight: bold;
+}
+
+QFontComboBox QAbstractItemView::item:last {
+    border-bottom: none;
+}
+
+/* 滚动条样式 */
+QFontComboBox QAbstractItemView QScrollBar:vertical {
+    background: transparent;
+    width: 8px;
+    margin: 0px;
+    border-radius: 4px;
+}
+
+QFontComboBox QAbstractItemView QScrollBar::handle:vertical {
+    background: #18e2cf;
+    border-radius: 4px;
+    min-height: 20px;
+}
+
+QFontComboBox QAbstractItemView QScrollBar::handle:vertical:hover {
+    background: #3de2cf;
+}
+
+QFontComboBox QAbstractItemView QScrollBar::add-line:vertical,
+QFontComboBox QAbstractItemView QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QFontComboBox QAbstractItemView QScrollBar::add-page:vertical,
+QFontComboBox QAbstractItemView QScrollBar::sub-page:vertical {
+    background: none;
+}</string>
             </property>
             <property name="iconSize">
              <size>
@@ -442,11 +614,6 @@ color: rgb(255, 255, 255);</string>
             <item>
              <property name="text">
               <string>UTF-8</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>UTF-16</string>
              </property>
             </item>
             <item>

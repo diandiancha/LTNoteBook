@@ -98,9 +98,9 @@ ShortSetting::ShortSetting(QWidget *parent)
     shadow->setColor(QColor(0,0,0,100));
     ui->frame->setGraphicsEffect(shadow);
 
-    ui->comboBoxLanguage->addItem(tr("Chinese"),"zh_CN");
-    ui->comboBoxLanguage->addItem(tr("English"),"en");
-    ui->comboBoxLanguage->addItem(tr("Japanese"),"ja");
+    ui->comboBoxLanguage->addItem(tr("中文"),"zh_CN");
+    ui->comboBoxLanguage->addItem(tr("英语"),"en");
+    ui->comboBoxLanguage->addItem(tr("日语"),"ja");
 
     m_initializing = true;
     QSettings s(ORG,APP);
@@ -184,14 +184,17 @@ ShortSetting::ShortSetting(QWidget *parent)
     connect(ui->listWidgetNav, &QListWidget::clicked, this, &ShortSetting::onListWidgetClicked);
 
     m_items = {
-        { "Shortcut/Open",  tr("打开文件"), "Ctrl+O" },
-        { "Shortcut/Save",  tr("保存文件"), "Ctrl+S" },
-        { "Shortcut/Undo",  tr("撤销"),     "Ctrl+Z" },
-        { "Shortcut/Redo",  tr("重做"),     "Ctrl+Y" }
+        { "Shortcut/Open",       tr("打开文件"),     "Ctrl+O" },
+        { "Shortcut/Save",       tr("保存文件"),     "Ctrl+S" },
+        { "Shortcut/Clear",      tr("删除当前文件"), "Ctrl+N" },
+        { "Shortcut/DeleteFile", tr("关闭当前文件"), "Ctrl+D" },
+        { "Shortcut/Undo",       tr("撤销"),        "Ctrl+Z" },
+        { "Shortcut/Redo",       tr("重做"),        "Ctrl+Y" }
     };
 
     ui->tblShortcuts->setColumnCount(2);
     ui->tblShortcuts->setHorizontalHeaderLabels({ tr("操作"), tr("快捷键") });
+    connect(ui->tblShortcuts, &QTableWidget::itemDoubleClicked, this, &ShortSetting::editCurrent);
     ui->tblShortcuts->horizontalHeader()->setStretchLastSection(true);
     ui->tblShortcuts->verticalHeader()->hide();
     ui->tblShortcuts->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -517,7 +520,3 @@ void ShortSetting::retranslate()
 {
     ui->retranslateUi(this);
 }
-
-
-
-
