@@ -33,7 +33,7 @@ A feature-rich, lightweight text editor designed to boost writing efficiency.
 ### 🚀 Getting Started
 
 #### Installation & Usage
-1.  Download the latest version from the [Releases](https://github.com/diandiancha/LTNoteBook/releases) page.
+1.  Download the latest version from the **[Releases]**(https://github.com/diandiancha/LTNoteBook/releases) page.
 2.  Unzip the files to any directory.
 3.  Run **LTNoteBook.exe**.
 
@@ -76,4 +76,4 @@ Welcome to submit Issues and Pull Requests!
 ---
 
 ### 📄 License
-This project is licensed under the MIT License. See the **LICENSE** file for details.
+This project is licensed under the MIT License. See the [**LICENSE**](https://github.com/diandiancha/LTNoteBook/blob/main/LICENSE) file for details.
