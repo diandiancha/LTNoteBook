@@ -107,6 +107,9 @@ void Widget::registerSingleFileType(const QString &extension, const QString &app
     // 注册程序ID
     registry.setValue(progId + "/.", description);
     registry.setValue(progId + "/DefaultIcon/.", QString("%1,0").arg(appPath));
+
+    // 修改命令行，确保使用正确的参数格式
+    // 使用 %1 而不是 %2，并添加引号确保路径正确传递
     registry.setValue(progId + "/shell/open/command/.",
                       QString("\"%1\" \"%2\"").arg(appPath, "%1"));
 
@@ -156,6 +159,7 @@ Widget::Widget(QWidget *parent)
     , mdHighlighter(nullptr)
     , m_hasInitialBackup(false)
     , m_smartBackupEnabled(true)
+    , m_isOpeningFile(false)
 {
     QSettings s(ORG,APP);
 
@@ -478,7 +482,6 @@ Widget::Widget(QWidget *parent)
 
     QStringList args = QCoreApplication::arguments();
     if (args.size() > 1) {
-        // 有命令行参数，尝试打开文件
         QString filePath = args[1];
         QFileInfo fileInfo(filePath);
 
@@ -486,9 +489,9 @@ Widget::Widget(QWidget *parent)
         if (fileInfo.exists() && fileInfo.isFile()) {
             QString suffix = fileInfo.suffix().toLower();
             if (suffix.isEmpty() || supportedTextExtensions.contains(suffix)) {
-                QTimer::singleShot(100, this, [this, filePath]() {
-                    openFileFromPath(filePath);
-                });
+                m_pendingFilePath = filePath;
+                // 使用更短的延迟，并添加防重复机制
+                QTimer::singleShot(50, this, &Widget::openPendingFile);
             }
         }
     }
@@ -521,6 +524,24 @@ Widget::~Widget() {
     if (scRedo) delete scRedo;
     if (scClear) delete scClear;
     if (scDeleteFile) delete scDeleteFile;
+}
+
+void Widget::openPendingFile()
+{
+    if (m_pendingFilePath.isEmpty() || m_isOpeningFile) {
+        return;
+    }
+
+    // 检查是否已经打开了这个文件
+    if (currentFilePath == m_pendingFilePath) {
+        m_pendingFilePath.clear();
+        return;
+    }
+
+    m_isOpeningFile = true;
+    openFileFromPath(m_pendingFilePath);
+    m_pendingFilePath.clear();
+    m_isOpeningFile = false;
 }
 
 void Widget::cleanupMemoryIfNeeded()
@@ -565,6 +586,28 @@ void Widget::cleanupMemoryIfNeeded()
 void Widget::openFileFromPath(const QString &path)
 {
     if (path.isEmpty()) return;
+
+    // 防止重复打开同一个文件
+    if (m_isOpeningFile) {
+        qDebug() << "Already opening a file, skipping:" << path;
+        return;
+    }
+
+    // 如果当前文件就是要打开的文件，不需要重新打开
+    if (currentFilePath == path && openedFiles.contains(path)) {
+        QString currentContent = ui->textEdit->toPlainText();
+        QString storedContent = openedFiles[path];
+
+        // 如果内容也相同，说明文件已经打开了，直接返回
+        if (currentContent == storedContent) {
+            qDebug() << "File already opened:" << path;
+            updateFileArrangement();
+            updateWindowTitle();
+            return;
+        }
+    }
+
+    m_isOpeningFile = true;
 
     m_readmeEncodingWarningShown = false;
 
@@ -673,6 +716,7 @@ void Widget::openFileFromPath(const QString &path)
         ui->fileCombobox->setCurrentText(encStr);
     }
     m_ignoreEncodingChange = false;
+    m_isOpeningFile = false;
 
     updateFileArrangement();
     updateWindowTitle();
